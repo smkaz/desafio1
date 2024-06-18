@@ -7,10 +7,10 @@ def menu():
     [d]\tDepositar
     [s]\tSacar
     [e]\tExtrato
-    [nc]\tNova conta
-    [lc]\tListar contas
-    [nu]\tNovo usuário
-    [q]\tSair
+    [c]\tNova conta
+    [mc]\tMostrar contas
+    [u]\tNovo usuário
+    [s]\tSair
     => """
     return input(textwrap.dedent(menu))
 
@@ -52,7 +52,7 @@ def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
     return saldo, extrato
 
 
-def exibir_extrato(saldo, /, *, extrato):
+def mostrar_extrato(saldo, /, *, extrato):
     print("\n================ EXTRATO ================")
     print("Não foram realizadas movimentações." if not extrato else extrato)
     print(f"\nSaldo:\t\tR$ {saldo:.2f}")
@@ -70,7 +70,7 @@ def criar_usuario(usuarios):
     nome = input("Informe o nome completo: ")
     data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
     endereco = input(
-        "Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): "
+        "Informe o endereço (Ex.: logradouro, nro - bairro - cidade/sigla estado): "
     )
 
     usuarios.append(
@@ -101,7 +101,7 @@ def criar_conta(agencia, numero_conta, usuarios):
     print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@")
 
 
-def listar_contas(contas):
+def mostrar_contas(contas):
     for conta in contas:
         linha = f"""\
             Agência:\t{conta['agencia']}
@@ -144,22 +144,22 @@ def main():
             )
 
         elif opcao == "e":
-            exibir_extrato(saldo, extrato=extrato)
+            mostrar_extrato(saldo, extrato=extrato)
 
-        elif opcao == "nu":
+        elif opcao == "u":
             criar_usuario(usuarios)
 
-        elif opcao == "nc":
+        elif opcao == "c":
             numero_conta = len(contas) + 1
             conta = criar_conta(AGENCIA, numero_conta, usuarios)
 
             if conta:
                 contas.append(conta)
 
-        elif opcao == "lc":
-            listar_contas(contas)
+        elif opcao == "mc":
+            mostrar_contas(contas)
 
-        elif opcao == "q":
+        elif opcao == "s":
             break
 
         else:
